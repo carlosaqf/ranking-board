@@ -1,0 +1,48 @@
+{
+  "players": [
+    {
+      "id": 1,
+      "playerName": {
+        "firstName": "Carlos",
+        "lastName": "Fegurgur"
+      },
+      "imageUrl": "https://www.unsplash.com/random",
+      "wins": 0,
+      "losses": 0,
+      "games": []
+    },
+    {
+      "playerName": {
+        "firstName": "Andrew",
+        "lastName": "Lenard"
+      },
+      "imageUrl": "This is supposed to be the imageURL",
+      "wins": 0,
+      "losses": 1,
+      "games": [],
+      "id": 2
+    },
+    {
+      "playerName": {
+        "firstName": "Henry",
+        "lastName": "Buster"
+      },
+      "imageUrl": "This is supposed to be the imageURL",
+      "wins": 0,
+      "losses": 5,
+      "games": [],
+      "id": 3
+    },
+    {
+      "playerName": {
+        "firstName": "Antonio",
+        "lastName": "Quan"
+      },
+      "imageUrl": "This is supposed to be the imageURL",
+      "wins": 9,
+      "losses": 5,
+      "games": [],
+      "id": 4
+    }
+  ]
+}
