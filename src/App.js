@@ -39,14 +39,21 @@ const App = () => {
         setPlayers(players.concat(returnedPlayer))
         setNewPlayer({})
       })
+    
   }
 
-  const handlefirstNameChange = e => {
-    setFirstName(e.target.value)
-  }
+  // const handlefirstNameChange = e => {
+  //   setFirstName(e.target.value)
+  //   console.log('this is the player name', e.target.value.split(' ')[0])
+  // }
 
-  const handleLastNameChange = e => {
-    setLastName(e.target.value)
+  // const handleLastNameChange = e => {
+  //   setLastName(e.target.value)
+  // }
+
+  const handleNameChange = e => {
+    setFirstName(e.target.value.split(' ')[0])
+    setLastName(e.target.value.split(' ')[1])
   }
 
   // METHOD TO OUTPUT PLAYERS AS <li>'S
@@ -54,8 +61,21 @@ const App = () => {
     {console.log('This is the player object', player)}
     return (<Player
       player={player}
+      handleDelete={handleDelete}
     />)
   })
+
+  const handleDelete = (id, e) => {
+    console.log('I am going to delete', id)
+    playerService
+      .remove(id)
+      .then(() => {
+        setPlayers(players.filter(player => player.id !== id))
+        //Filtering the player array based on whether or not the player matches the id we are passing. 
+        // If the player id matches the id we are passing then that player is removed.
+        // We then set the players to be this filtered array.
+      })
+  }
 
   
   return(
@@ -66,7 +86,9 @@ const App = () => {
       </ul>
       {console.log('These are the players', players)}
       <form onSubmit={addPlayer}>
-        <input
+        <input onChange={handleNameChange} placeholder="Enter name" />
+        
+        {/* <input
           value={firstName}
           onChange={handlefirstNameChange}
           placeholder="First Name"
@@ -77,7 +99,8 @@ const App = () => {
           value={lastName}
           onChange={handleLastNameChange}
           placeholder="Last Name"
-        />
+        /> */}
+
         <button type="submit">Save</button>
       </form>
     </div>
