@@ -1,0 +1,8 @@
+POST http://localhost:3001/api/games
+Content-Type: application/json
+
+{
+    "winner": "Player 1",
+    "opponent": "Player 2",
+    "userId": "5e1a33f8a005e622866b2c37"
+}
