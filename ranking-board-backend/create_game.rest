@@ -1,8 +1,9 @@
 POST http://localhost:3001/api/games
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6IjVlMWEzZTQzMmE2Yjc1MjRmZDg2OWU2MCIsImlhdCI6MTU3ODg2MzU2NH0.e3Lv7RgrIMrZcWaHguOFcK1KdAjDWZCU8XDQZO9lGK4
 
 {
     "winner": "Player 1",
-    "opponent": "Player 2",
+    "opponent": "5e1a2e694c4ca0226b2145b7",
     "userId": "5e1a33f8a005e622866b2c37"
 }

@@ -13,7 +13,11 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Game'
         }
-    ]
+    ],
+    record: {
+        wins: { type: Number },
+        losses: { type: Number }
+    }
 })
 
 userSchema.plugin(uniqueValidator)

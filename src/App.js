@@ -6,6 +6,7 @@ import playerService from './services/players'
 const App = () => {
 
   const [players, setPlayers] = useState([])
+  // eslint-disable-next-line no-unused-vars
   const [newPlayer, setNewPlayer] = useState({})
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -58,7 +59,7 @@ const App = () => {
 
   // METHOD TO OUTPUT PLAYERS AS <li>'S
   const rows = () => players.map(player => {
-    {console.log('This is the player object', player)}
+    console.log('This is the player object', player)
     return (<Player
       player={player}
       handleDelete={handleDelete}

@@ -2,11 +2,22 @@
 const gamesRouter = require('express').Router()
 const Game = require('../models/game')
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
+
+// GET TOKEN
+const getTokenFrom = req => {
+    const authorization = req.get('authorization')
+    if (authorization && authorization.toLowerCase().startsWith('bearer')){
+        return authorization.substring(7)
+    }
+    return null
+}
+
 
 // GET ALL GAMES
 gamesRouter.get('/', async (req,res) => {
     const games = await Game
-        .find({}).populate('user', { username: 1, name: 1 })
+        .find({}).populate('user', { username: 1, name: 1, record: 1 })
     
     res.json(games.map(game => game.toJSON()))
 
@@ -35,30 +46,39 @@ gamesRouter.post('/', async (req,res,next) => {
 
     const body = req.body
 
-    const user = await User.findById(body.userId)
-    
-    // Winner: String,
-    // setsPlayed: Number,
-    // user1SetsWon: Number,
-    // user2SetsWon: Number,
-    // date: Date,
-    // ranked: Boolean,
-    // opponent: String,
-    // user: user._id
-    
-    const game = new Game({
-        winner: body.winner,
-        date: new Date(),
-        opponent: body.opponent,
-        user: user._id
-    })
-    
+    const token = getTokenFrom(req)
+
     try {
 
-        const savedGame = await game.save()
-        user.games = user.games.concat(savedGame._id)
-        await user.save()
-        res.json(savedGame.toJSON())
+        const decodedToken = jwt.verify(token, process.env.SECRET)
+        if (!token || !decodedToken.id){
+            return res.status(401).json({
+                error: 'token missing or invalid'
+            })
+        }
+
+        const user = await User.findById(decodedToken.id)
+    
+        // Winner: String,
+        // setsPlayed: Number,
+        // user1SetsWon: Number,
+        // user2SetsWon: Number,
+        // date: Date,
+        // ranked: Boolean,
+        // opponent: String,
+        // user: user._id
+
+        const game = new Game({
+            winner: body.winner,
+            date: new Date(),
+            opponent: body.opponent,
+            user: user._id
+        })
+
+            const savedGame = await game.save()
+            user.games = user.games.concat(savedGame._id)
+            await user.save()
+            res.json(savedGame.toJSON())
 
     } catch(exception) {
 

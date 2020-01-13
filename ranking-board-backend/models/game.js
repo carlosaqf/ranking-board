@@ -7,7 +7,10 @@ const gameSchema = new mongoose.Schema({
     // user2SetsWon: Number,
     date: Date,
     // ranked: Boolean,
-    opponent: String,
+    opponent: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

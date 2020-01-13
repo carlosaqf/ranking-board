@@ -13,7 +13,11 @@ usersRouter.post('/', async (req,res,next) => {
         const user = new User({
             username: body.username,
             name: body.name,
-            passwordHash
+            passwordHash,
+            record: {
+                wins: body.record.wins,
+                losses: body.record.losses
+            }
         })
 
         const savedUser = await user.save()
@@ -28,7 +32,7 @@ usersRouter.post('/', async (req,res,next) => {
 // RETURN LIST OF USERS
 usersRouter.get('/', async (req,res) => {
     const users = await User
-        .find({}).populate('games', { winner: 1, date: 1 })
+        .find({}).populate('games')
     
     res.json(users.map(u => u.toJSON()))
 })
