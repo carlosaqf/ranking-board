@@ -1,14 +1,23 @@
 import axios from 'axios'
 const baseUrl = '/api/games'
 
+let token = null
+
+const setToken = newToken => {
+    token = `bearer ${newToken}`
+}
+
 const getAll = () => {
     const req = axios.get(baseUrl)
     return req.then(res => res.data)
 }
 
 const create = newObj => {
-    const req = axios.post(baseUrl, newObj)
-    return req.then(res => res.data)
+    const config = {
+        headers: { Authorization: token }
+    }
+    const res = axios.post(baseUrl, newObj, config)
+    return res.data
 }
 
 const update = (id, newObj) => {
@@ -19,6 +28,7 @@ const update = (id, newObj) => {
 export default {
     getAll,
     create,
-    update
+    update,
+    setToken
 }
 
