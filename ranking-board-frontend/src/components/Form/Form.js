@@ -3,12 +3,14 @@ import { StyledLoginForm, StyledGameForm } from './Form.styled'
 import gameService from '../../services/games'
 import loginService from '../../services/login'
 import Toggable from '../Toggable';
+import PropTypes from 'prop-types'
 
 const LoginForm = () => {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
+    // eslint-disable-next-line no-unused-vars
     const [errorMessage, setErrorMessage] = useState('')
     const [loginVisible, setLoginVisible] = useState(false)
 
@@ -117,17 +119,46 @@ const LoginForm = () => {
 
 }
 
-const GameForm = ({ onSubmit, handleChange, value }) => {
+
+const GameForm = ({ addGame, handleWinnerChange, winner }) => {
+    
+    const gameFormRef = React.createRef()
+
+    // const addGame = e => {
+    //     e.preventDefault()
+    //     console.log('This is the winner value being passed', winner)
+    //     const gameObj = {
+    //         date: new Date(),
+    //         winner: winner
+    //     }
+    
+    //     gameService
+    //       .create(gameObj).then(returnedGame => {
+    //         setGames(games.concat(returnedGame))
+    //         setNewGame('')
+    //       })
+    //   }
+    
     return(
         <StyledGameForm>
             <h2>Add a new game</h2>
 
-            <Toggable buttonLabel='New Game'>
-                <form onSubmit={onSubmit}>
+            <Toggable buttonLabel='New Game' ref={gameFormRef}>
+                <form onSubmit={addGame}>
+                    Winner:
                     <input
-                        value={value}
-                        onChange={handleChange}
-                        />
+                        placeholder='Enter Winner'
+                        value={winner}
+                        onChange={handleWinnerChange}
+                    />
+
+                    {/* Opponent:
+                    <input
+                        placeholder='Enter Opponent'
+                        value={opponent}      
+                        onChange={handleOpponentChange}
+                    /> */}
+
                     <button type='submit'>Save</button>
                 </form>
             </Toggable>
@@ -135,6 +166,12 @@ const GameForm = ({ onSubmit, handleChange, value }) => {
         </StyledGameForm>
     )
 
+}
+
+GameForm.propTypes = {
+    addGame: PropTypes.func.isRequired,
+    handleWinnerChange: PropTypes.func.isRequired,
+    winner: PropTypes.string.isRequired
 }
 
 export {

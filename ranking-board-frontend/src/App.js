@@ -5,11 +5,14 @@ import { GameContainer } from './components/Game/Game.styled'
 import gameService from './services/games'
 import loginService from './services/login'
 import { LoginForm, GameForm } from './components/Form'
+import { useField } from './hooks'
 
 const App = () => {
   
   const [games, setGames] = useState([])
   const [newGame, setNewGame] = useState('')
+  const [opponent, setOpponent] = useState('')
+  const [winner, setWinner] = useState('')
 
   // HOOK - GRABS ALL GAMES IN DB
   useEffect(() => {
@@ -31,29 +34,46 @@ const App = () => {
   const handleGameChange = e => {
     setNewGame(e.target.value)
   }
+  const handleWinnerChange = e => {
+    setWinner(e.target.value)
+  }
+  const handleOpponentChange = e => {
+    setOpponent(e.target.value)
+  }
 
   const addGame = e => {
     e.preventDefault()
+    console.log('This is the winner value being passed', newGame)
     const gameObj = {
-      
+        date: new Date(),
+        winner: winner,
+        id: games.length + 1,
+        // opponent: opponent
     }
 
     gameService
-      .create(gameObj)
-      .then(data => {
-        setGames(games.concat(data))
+      .create(gameObj).then(returnedGame => {
+        setGames(games.concat(returnedGame))
         setNewGame('')
+        setWinner('')
+        setOpponent('')
       })
   }
-
 
 
   return (
     <div>    
       
       <LoginForm />
-
-      <GameForm />
+      
+      <GameForm
+        addGame={addGame}
+        winner={winner}
+        // opponent={opponent}
+        handleChange={handleGameChange}      
+        handleWinnerChange={handleWinnerChange}      
+        // handleOpponentChange={handleOpponentChange}      
+      />
 
       <GameContainer>
         {displayGames()}
